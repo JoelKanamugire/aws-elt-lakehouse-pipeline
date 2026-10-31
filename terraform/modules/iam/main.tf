@@ -37,6 +37,18 @@ resource "aws_iam_policy" "cwo_lake_access" {
         Effect   = "Allow"
         Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
         Resource = ["${var.bucket_arn}/*"]
+      },
+      {
+        Sid      = "ManageBucketSecuritySettings"
+        Effect   = "Allow"
+        Action   = [
+          "s3:GetBucketPolicy",
+          "s3:PutBucketPolicy",
+          "s3:DeleteBucketPolicy",
+          "s3:GetBucketOwnershipControls",
+          "s3:PutBucketOwnershipControls"
+        ]
+        Resource = [var.bucket_arn]
       }
 
     ]
