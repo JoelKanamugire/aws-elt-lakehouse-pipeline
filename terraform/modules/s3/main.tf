@@ -31,6 +31,28 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "lake" {
     }
   }
 }
+
+resource "aws_s3_bucket_policy" "tls_only" {
+  bucket     = aws_s3_bucket.lake.id
+  depends_on = [aws_s3_bucket_public_access_block.lake]
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid       = "DenyInsecureTransport"
+      Effect    = "Deny"
+      Principal = "*"
+      Action    = "s3:*"
+      Resource  = [aws_s3_bucket.lake.arn, "${aws_s3_bucket.lake.arn}/*"]
+      Condition = { Bool = { "aws:SecureTransport" = "false" } }
+    }]
+  })
+}
+resource "aws_s3_bucket_ownership_controls" "lake" {
+  bucket = aws_s3_bucket.lake.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
 # Create the folder structure inside the bucket
 resource "aws_s3_object" "folders" {
   for_each = toset(["raw/", "silver/", "gold/", "scripts/", "logs/"])
