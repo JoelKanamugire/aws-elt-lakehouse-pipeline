@@ -4,7 +4,7 @@ import pendulum
 from airflow.sdk import DAG
 from airflow.providers.standard.operators.bash import BashOperator
 
-TABLES = ["orders", "customers", "products", "promotions", "order_items", "promotion_usage"]
+from src.ingestion.table_config import TABLE_CONFIG
 
 with DAG(
     dag_id="mysql_to_s3_prod",
@@ -28,7 +28,7 @@ with DAG(
     tags=["mysql", "s3", "prod"],
 ) as dag:
 
-    for table in TABLES:
+    for table in TABLE_CONFIG:
         BashOperator(
             task_id=f"ingest_{table}",
             bash_command=(

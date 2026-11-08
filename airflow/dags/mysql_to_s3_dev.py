@@ -27,7 +27,7 @@ with DAG(
     - Adding a table to `TABLE_CONFIG` adds a task here automatically.
     """,
     start_date=pendulum.datetime(2026, 10, 1, tz="America/Chicago"),
-    schedule="None",
+    schedule=None,
     catchup=False,
     # Watermarks are per table; two runs at once could load the same rows twice.
     max_active_runs=1,
