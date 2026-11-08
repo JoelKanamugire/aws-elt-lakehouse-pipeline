@@ -49,5 +49,14 @@ TABLE_CONFIG = {
             "watermark_column": "updated_at",
             "s3_prefix": "raw/mysql/promotion_usage",
             "watermark_key": "control/watermarks/mysql/promotion_usage.json",       
+        },
+        "inventory":{
+            "name": "inventory", 
+            "primary_key": "inventory_id",
+            "load_type" : "full_snapshot",
+            "watermark_column" : None,
+            "s3_prefix": "raw/mysql/inventory",
+            "watermark_key": None
+            
         }
 }
