@@ -1,0 +1,20 @@
+# Local AWS Glue 5.0 dev container for the Silver layer.
+# Same runtime as Glue 5.0 in DEV/PROD: Python 3.11, Spark 3.5, Iceberg 1.7.1.
+# Local development only - never deployed.
+
+
+services:
+  glue:
+    image: public.ecr.aws/glue/aws-glue-libs:5
+    container_name: cwo-glue5
+    working_dir: /home/hadoop/workspace
+    volumes:
+      - .:/home/hadoop/workspace
+      - ${USERPROFILE}/.aws:/home/hadoop/.aws:ro
+    environment:
+      AWS_PROFILE: ${AWS_PROFILE:-joel-admin}
+      AWS_REGION: us-east-2
+      SILVER_RUNTIME: local
+      PYTHONPATH: /home/hadoop/workspace/src
+      PYTHONDONTWRITEBYTECODE: "1"
+    command: ["-c", "tail -f /dev/null"]

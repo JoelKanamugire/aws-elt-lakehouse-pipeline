@@ -1,0 +1,12 @@
+# Files that run inside the Linux Glue container keep LF line endings,
+# even though they're edited on Windows.
+*.py    text eol=lf
+*.sh    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.json  text eol=lf
+*.sql   text eol=lf
+*.tf    text eol=lf
+
+# PowerShell stays Windows-native
+*.ps1   text eol=crlf
